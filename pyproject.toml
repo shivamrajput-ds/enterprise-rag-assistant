@@ -1,0 +1,6 @@
+[project]
+name = "enterprise-rag-assistant"
+version = "1.0.0"
+description = "Enterprise RAG Assistant with Hybrid Search, Query Expansion, Cross-Encoder Reranking and Pandas Analytics Engine"
+readme = "README.md"
+requires-python = ">=3.11"
