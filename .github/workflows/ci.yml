@@ -39,5 +39,7 @@ jobs:
           python -c "from src.tabular_query_engine import answer_tabular_query; print('Pandas engine import OK')"
 
       - name: Run tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: |
           pytest tests/ -v
