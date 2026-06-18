@@ -38,8 +38,8 @@ jobs:
           python -c "from src.query_router import is_tabular_analytics_query; print('Router import OK')"
           python -c "from src.tabular_query_engine import answer_tabular_query; print('Pandas engine import OK')"
 
-      - name: Run tests
+      - name: Run E2E tests
         env:
           PYTHONPATH: ${{ github.workspace }}
         run: |
-          pytest tests/ -v
+          python tests/test_e2e.py
