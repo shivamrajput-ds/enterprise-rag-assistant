@@ -1,6 +1,6 @@
 # RAG Assistant — Evaluation Report
 
-📺 [Watch Demo](https://youtu.be/Rvdz9DKtz5o?si=GcMIR7nWABJQYCR1) | 🐳 [Docker Hub](https://hub.docker.com/repository/docker/shivamrajput130/enterprise-rag-assistant/general) | 💻 [GitHub](https://github.com/shivamrajput130/enterprise-rag-assistant)
+📺 [Watch Demo](https://youtu.be/Rvdz9DKtz5o?si=GcMIR7nWABJQYCR1) | 🐳 [Docker Hub](https://hub.docker.com/repository/docker/shivamrajput130/enterprise-rag-assistant/general) | 💻 [GitHub](https://github.com/shivamrajput-ds/enterprise-rag-assistant)
 
 **Evaluation date:** June 2026
 **Build evaluated:** Dockerized build, published to Docker Hub

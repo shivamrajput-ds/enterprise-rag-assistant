@@ -109,7 +109,7 @@ To build the image from source instead of pulling from Docker Hub:
 > **Note:** First build may take several minutes — PyTorch, Transformers, and Sentence Transformers are large dependencies (~4.3 GB total image size).
 
 ```bash
-git clone https://github.com/shivamrajput130/enterprise-rag-assistant
+git clone https://github.com/shivamrajput-ds/enterprise-rag-assistant
 cd enterprise-rag-assistant
 
 docker build -t enterprise-rag-assistant .

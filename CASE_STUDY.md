@@ -1,8 +1,8 @@
 # Enterprise RAG Assistant — Case Study
 
-📺 [Watch Demo](https://youtu.be/Rvdz9DKtz5o?si=GcMIR7nWABJQYCR1) | 🐳 [Docker Hub](https://hub.docker.com/repository/docker/shivamrajput130/enterprise-rag-assistant/general) | 💻 [GitHub](https://github.com/shivamrajput130/enterprise-rag-assistant)
+📺 [Watch Demo](https://youtu.be/Rvdz9DKtz5o?si=GcMIR7nWABJQYCR1) | 🐳 [Docker Hub](https://hub.docker.com/repository/docker/shivamrajput130/enterprise-rag-assistant/general) | 💻 [GitHub](https://github.com/shivamrajput-ds/enterprise-rag-assistant)
 
-This is the real development story: what I planned to build, what broke, how I debugged it, and what I'd do differently. The project was not built in a single iteration — it went through nine versions over approximately six weeks. Every bug in this document was real.
+This is the real development story: what I planned to build, what broke, how I debugged it, and what I'd do differently. The project was not built in a single iteration — it went through ten versions over approximately six weeks. Every bug in this document was real.
 
 > **Note on scope:** The term "enterprise" refers to the document types and retrieval challenges — HR policies, employee records, CSV datasets, FAQ files — not to production-scale deployment. The system runs locally and in Docker, has no authentication, and was built on a personal laptop (Windows 11, i5-12450H, 16 GB RAM, GTX 1650).
 

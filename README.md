@@ -6,10 +6,12 @@
 [![ChromaDB](https://img.shields.io/badge/ChromaDB-persistent-orange)](https://www.trychroma.com)
 [![Docker](https://img.shields.io/badge/Docker-Hub-blue)](https://hub.docker.com/repository/docker/shivamrajput130/enterprise-rag-assistant/general)
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green)](https://supabase.com)
+![CI](https://github.com/shivamrajput-ds/enterprise-rag-assistant/actions/workflows/ci.yml/badge.svg)
+![Docker Build](https://github.com/shivamrajput-ds/enterprise-rag-assistant/actions/workflows/docker-build.yml/badge.svg)
 
 A production-oriented document QA system that combines a **Hybrid RAG Pipeline** for semantic document retrieval with a **Pandas Analytics Engine** for structured data queries — connected by a **Hybrid Query Router** (schema-aware analytics detection + semantic routing) that routes each question to the right pipeline automatically.
 
-📺 [Watch Demo](https://youtu.be/Rvdz9DKtz5o?si=GcMIR7nWABJQYCR1) | 🐳 [Docker Hub](https://hub.docker.com/repository/docker/shivamrajput130/enterprise-rag-assistant/general) | 💻 [GitHub](https://github.com/shivamrajput130/enterprise-rag-assistant)
+📺 [Watch Demo](https://youtu.be/Rvdz9DKtz5o?si=GcMIR7nWABJQYCR1) | 🐳 [Docker Hub](https://hub.docker.com/repository/docker/shivamrajput130/enterprise-rag-assistant/general) | 💻 [GitHub](https://github.com/shivamrajput-ds/enterprise-rag-assistant)
 
 ![Demo](assets/demo.gif)
 
@@ -43,7 +45,8 @@ The solution is a two-pipeline architecture: a Hybrid RAG Pipeline for semantic 
 | Supabase PostgreSQL feedback analytics | ✅ Complete |
 | Docker image published to Docker Hub | ✅ Complete |
 | E2E testing — RAG + Pandas paths | ✅ Complete |
-| GitHub Actions CI/CD | 🚧 In progress |
+| GitHub Actions CI/CD | ✅ Complete |
+| Docker Build Workflow | ✅ Complete |
 | DVC / DagsHub data versioning | 🚧 Planned |
 
 ---
@@ -54,14 +57,16 @@ The solution is a two-pipeline architecture: a Hybrid RAG Pipeline for semantic 
 |---|---|
 | ![Chat Interface](assets/chat_interface.png) | ![Pandas Analytics](assets/tabular_engine.png) |
 | RAG pipeline — semantic answer with source page numbers | Pandas Engine — aggregation answer |
-| ![Hybrid Search](assets/hybrid_search.png) | ![Fallback](assets/fallback_behavior.png) |
+| ![Hybrid Search](assets/hybrid_search.png) | ![Fallback](assets/fallback_behaviour.png) |
 | Hybrid search retrieving exact CSV records | Fallback for out-of-scope questions |
 | ![Analytics Dashboard](assets/analytics_queries.png) | ![FastAPI Swagger](assets/fastapi_api.png) |
 | Feedback analytics dashboard | FastAPI Swagger UI |
-| ![File Upload](assets/file_upload.png) | ![Supabase](assets/supabase_feedback.png) |
+| ![File Upload](assets/file_upload.png) | ![Supabase](assets/supabase_feedback_table.png) |
 | File upload and document management | Supabase feedback storage |
 | ![Architecture](assets/architecture.png) | ![Query Router](assets/query_router.png) |
 | System architecture | Query Router routing decision |
+| ![GitHub Actions CI](assets/github_actions_ci.png) | ![Docker Deployment](assets/docker_deployment.png) |
+| GitHub Actions CI/CD pipeline | Docker deployment |
 
 ---
 
@@ -122,7 +127,7 @@ Before the Pandas Engine, all these queries either hallucinated or returned noth
 User Question
       │
       ▼
- Query Router ← LLM classifies: tabular or semantic?
+ Query Router ← Hybrid Query Router classifies using schema-aware analytics detection + semantic routing
       │
       ├─────────────────────────────────────┐
       ▼                                     ▼
@@ -173,7 +178,7 @@ pandas operations               (1 original + up to 4)
 | V7 | Pandas Analytics Engine | Aggregation queries hallucinated in RAG |
 | V8 | Hybrid Query Router (schema-aware analytics detection + semantic routing) | Routing by keyword rules was unreliable |
 | V9 | Supabase PostgreSQL | Local SQL Server broke in Docker |
-| V10 | Docker + Docker Hub publish + Supabase cloud deployment | Reproducible, production-ready deployment |
+| V10 | Docker + Docker Hub publish + Supabase cloud deployment | Reproducible, production-oriented deployment |
 
 The largest single retrieval improvement came from hybrid search — adding BM25 alongside vector search. The largest architectural improvement came from separating analytical and semantic queries into two pipelines.
 
@@ -361,13 +366,17 @@ enterprise-rag-assistant/
 │   ├── architecture.png
 │   ├── chat_interface.png
 │   ├── analytics_queries.png
-│   ├── fallback_behavior.png
+│   ├── docker_deployment.png
+│   ├── evaluation_testing.png
+│   ├── fallback_behaviour.png
 │   ├── fastapi_api.png
 │   ├── feedback_dashboard.png
 │   ├── file_upload.png
+│   ├── github_actions_ci.png
 │   ├── hybrid_search.png
+│   ├── multi_document_reasoning.png
 │   ├── query_router.png
-│   ├── supabase_feedback.png
+│   ├── supabase_feedback_table.png
 │   ├── system_workflow.png
 │   └── tabular_engine.png
 ├── src/
@@ -400,8 +409,9 @@ enterprise-rag-assistant/
 │   ├── evaluation.md
 │   └── docker.md
 ├── data/
-│   ├── documents/
-│   └── vectorstore/
+│   ├── documents/           # Created at runtime — not committed to Git
+│   └── vectorstore/         # Created at runtime — not committed to Git
+├── logs/                    # Created at runtime — not committed to Git
 ├── config.yaml
 ├── CASE_STUDY.md
 ├── Dockerfile
@@ -468,6 +478,8 @@ uv run uvicorn api.main:app --reload
 # Terminal 2 — UI
 uv run streamlit run app/streamlit_app.py
 ```
+
+> **Streamlit Cloud deployment note:** Requires dependencies to be synced in `pyproject.toml` and `uv.lock`. Ensure both files are committed before deploying.
 
 ---
 
@@ -619,3 +631,9 @@ Key engineering challenges solved:
 | [docs/evaluation.md](./docs/evaluation.md) | RAG + Pandas analytics + Docker evaluation results |
 | [docs/architecture.md](./docs/architecture.md) | Architecture deep-dive, component map, retrieval math |
 | [docs/docker.md](./docs/docker.md) | Docker Hub, build, run, environment variables, troubleshooting |
+
+---
+
+## License
+
+MIT License — see [LICENSE](./LICENSE) for details.
