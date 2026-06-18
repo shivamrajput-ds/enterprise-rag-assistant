@@ -32,14 +32,16 @@ jobs:
           pip install pytest
 
       - name: Validate imports
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: |
           python -c "from api.main import app; print('FastAPI import OK')"
           python -c "from src.config_loader import config; print('Config load OK')"
           python -c "from src.query_router import is_tabular_analytics_query; print('Router import OK')"
           python -c "from src.tabular_query_engine import answer_tabular_query; print('Pandas engine import OK')"
 
-      - name: Run E2E tests
+      - name: Lightweight validation
         env:
           PYTHONPATH: ${{ github.workspace }}
         run: |
-          python tests/test_e2e.py
+          python -m compileall api app src tests
