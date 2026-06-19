@@ -2,7 +2,7 @@
 
 📺 [Watch Demo](https://youtu.be/Rvdz9DKtz5o?si=GcMIR7nWABJQYCR1) | 🐳 [Docker Hub](https://hub.docker.com/repository/docker/shivamrajput130/enterprise-rag-assistant/general) | 💻 [GitHub](https://github.com/shivamrajput-ds/enterprise-rag-assistant)
 
-This is the real development story: what I planned to build, what broke, how I debugged it, and what I'd do differently. The project was not built in a single iteration — it went through ten versions over approximately six weeks. Every bug in this document was real.
+This is the real development story: what I planned to build, what broke, how I debugged it, and what I'd do differently. The project was not built in a single iteration — it went through ten versions over an intensive 3-day development sprint. Every bug in this document was real.
 
 > **Note on scope:** The term "enterprise" refers to the document types and retrieval challenges — HR policies, employee records, CSV datasets, FAQ files — not to production-scale deployment. The system runs locally and in Docker, has no authentication, and was built on a personal laptop (Windows 11, i5-12450H, 16 GB RAM, GTX 1650).
 
@@ -12,12 +12,10 @@ This is the real development story: what I planned to build, what broke, how I d
 
 | Phase | Work done |
 |---|---|
-| Week 1 | Base utilities (logger, exception), config setup, PDF-only vector search |
-| Week 2 | Multi-format loading (CSV, DOCX, JSON, TXT, Excel), hallucination fix, grounding prompt |
-| Week 3 | Query expansion, BM25 hybrid retrieval, CrossEncoder reranking |
-| Week 4 | RAGAS integration, E2E tests, Streamlit UI polish, feedback analytics |
-| Week 5 | Pandas Analytics Engine, Query Router, tabular query debugging |
-| Week 6 | Supabase migration (SQL Server → PostgreSQL), Docker, Docker Hub push |
+| Day 1 | Base utilities (logger, exception), config setup, PDF-only vector search, multi-format loading (CSV, DOCX, JSON, TXT, Excel), hallucination fix, grounding prompt |
+| Day 2 | Query expansion, BM25 hybrid retrieval, CrossEncoder reranking, RAGAS integration, E2E tests, Streamlit UI polish, feedback analytics |
+| Day 3 | Pandas Analytics Engine, Query Router, tabular query debugging, Supabase migration (SQL Server → PostgreSQL), Docker, Docker Hub push |
+| Final polish | CI/CD (GitHub Actions), Streamlit Cloud deployment, documentation, asset cleanup |
 
 ---
 
@@ -305,7 +303,7 @@ The RAG pipeline is designed for retrieval — finding the right chunk. It canno
 The Pandas Analytics Engine loads the CSV/Excel file directly as a DataFrame and runs pandas operations:
 
 ```python
-# tabular_query.py
+# tabular_query_engine.py
 # average → df[col].mean()
 # top N   → df.nlargest(n, col)
 # count   → conditional len()
@@ -314,7 +312,7 @@ The Pandas Analytics Engine loads the CSV/Excel file directly as a DataFrame and
 # negative filter → df[df[col] != value]
 ```
 
-**Negative filter bug:** The initial implementation had a boolean logic error for negative filter queries ("show students who are not in class 10"). It returned all students including class 10 students. Fixed by correcting the pandas boolean condition in `tabular_query.py`.
+**Negative filter bug:** The initial implementation had a boolean logic error for negative filter queries ("show students who are not in class 10"). It returned all students including class 10 students. Fixed by correcting the pandas boolean condition in `tabular_query_engine.py`.
 
 **Query Router bug:** The router initially sent some ambiguous queries to the wrong pipeline. Refined the LLM prompt for classification. After refinement, all test queries routed correctly.
 
@@ -377,7 +375,7 @@ None of these were pipeline bugs — they were environment and tooling mismatche
 | `vertexai` import error | RAGAS internal dependency | Same pin resolved it |
 | Faithfulness NaN | Groq rate limits during evaluation | Known — separate evaluator needed |
 | Aggregation queries hallucinated | RAG pipeline cannot compute | Pandas Analytics Engine + Query Router |
-| Negative filter returned wrong rows | Boolean logic error in `tabular_query.py` | Fixed condition |
+| Negative filter returned wrong rows | Boolean logic error in `tabular_query_engine.py` | Fixed condition |
 | Router sent queries to wrong pipeline | Ambiguous prompt for classification | LLM prompt refinement |
 | SQL Server broke in Docker | ODBC driver installation in container | Migrated to Supabase PostgreSQL |
 | Groq key not reaching container | `--env-file` syntax | Fixed Docker run command |

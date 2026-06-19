@@ -180,7 +180,7 @@ These queries could not be answered before the Pandas Engine and Query Router we
 | 9 | Show students with math between 80 and 95 | range filter | Correct rows | Passed |
 | 10 | Who has the highest total marks? | `nlargest(1)` on total | Correct student | Passed |
 
-**Negative filter bug:** Query 8 initially returned all students including class 10 students due to a boolean logic error in `tabular_query.py`. Fixed before final evaluation.
+**Negative filter bug:** Query 8 initially returned all students including class 10 students due to a boolean logic error in `tabular_query_engine.py`. Fixed before final evaluation.
 
 ### Before vs After — Aggregation Query
 

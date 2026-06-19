@@ -159,7 +159,7 @@ Ambiguous queries may be misrouted. "Tell me about student S127's performance" c
 ## Pandas Analytics Engine
 
 ```python
-# tabular_query.py
+# tabular_query_engine.py
 # Supported operations on CSV/Excel files:
 # average / mean         → df[col].mean()
 # count                  → len(df) or df[col].count()
@@ -395,7 +395,7 @@ Response time is measured from request receipt to answer return at the FastAPI l
 | Source pollution — wrong files cited | All 20 retrieved chunks sent to LLM | CrossEncoder reranking, `reranker_top_k=3` |
 | Token limit errors | Full merged context sent to Groq | `MAX_CONTEXT_CHARS = 8000` |
 | RAGAS dependency conflicts | Breaking API changes in newer LangChain | Pinned `ragas==0.2.10` |
-| Negative filter queries returned wrong rows | Pandas boolean logic edge case | Fixed in `tabular_query.py` |
+| Negative filter queries returned wrong rows | Pandas boolean logic edge case | Fixed in `tabular_query_engine.py` |
 | Query Router misclassified edge cases | Ambiguous query phrasing | Prompt refinement on router LLM call |
 | Docker environment variable errors | `.env` not passed to container correctly | `--env-file .env` in run command |
 
@@ -410,7 +410,7 @@ Response time is measured from request receipt to answer return at the FastAPI l
 | `embeddings.py` | BGE model singleton |
 | `vector_store.py` | ChromaDB operations, MD5 chunk IDs, text cleaning |
 | `query_router.py` | Hybrid Query Router — schema-aware analytics detection + semantic routing |
-| `tabular_query.py` | Pandas Analytics Engine — aggregations, filters, rankings |
+| `tabular_query_engine.py` | Pandas Analytics Engine — aggregations, filters, rankings |
 | `query_expansion.py` | LLM expansion, output cleaning, fallback |
 | `retriever.py` | Hybrid retrieval, BM25, merge, dedup |
 | `reranker.py` | CrossEncoder singleton, debug logging |

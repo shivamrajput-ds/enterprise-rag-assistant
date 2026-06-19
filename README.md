@@ -7,7 +7,7 @@
 [![Docker](https://img.shields.io/badge/Docker-Hub-blue)](https://hub.docker.com/repository/docker/shivamrajput130/enterprise-rag-assistant/general)
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green)](https://supabase.com)
 ![CI](https://github.com/shivamrajput-ds/enterprise-rag-assistant/actions/workflows/ci.yml/badge.svg)
-![Docker Build](https://github.com/shivamrajput-ds/enterprise-rag-assistant/actions/workflows/docker-build.yml/badge.svg)
+![Docker Build](https://github.com/shivamrajput-ds/enterprise-rag-assistant/actions/workflows/docker_build.yml/badge.svg)
 
 A production-oriented document QA system that combines a **Hybrid RAG Pipeline** for semantic document retrieval with a **Pandas Analytics Engine** for structured data queries — connected by a **Hybrid Query Router** (schema-aware analytics detection + semantic routing) that routes each question to the right pipeline automatically.
 
@@ -229,7 +229,7 @@ Keyword rules fail on natural language variations — "Who performed best?" and 
 ## Pandas Analytics Engine
 
 ```python
-# tabular_query.py — supported operations
+# tabular_query_engine.py — supported operations
 # average        → df[col].mean()
 # count          → conditional len()
 # top N          → df.nlargest(n, col)
@@ -420,7 +420,7 @@ enterprise-rag-assistant/
 │   ├── rag_chain.py
 │   ├── reranker.py          # CrossEncoder singleton
 │   ├── retriever.py         # Hybrid retrieval
-│   ├── tabular_query.py     # Pandas Analytics Engine
+│   ├── tabular_query_engine.py  # Pandas Analytics Engine
 │   ├── text_splitter.py
 │   └── vector_store.py      # ChromaDB, MD5 dedup, text cleaning
 ├── evaluation/
@@ -432,14 +432,14 @@ enterprise-rag-assistant/
 │   └── e2e_test_cases.csv
 ├── docs/
 │   ├── architecture.md
-│   ├── evaluation.md
-│   └── docker.md
+│   └── evaluation.md
 ├── data/
 │   ├── documents/           # Created at runtime — not committed to Git
 │   └── vectorstore/         # Created at runtime — not committed to Git
 ├── logs/                    # Created at runtime — not committed to Git
 ├── config.yaml
 ├── CASE_STUDY.md
+├── DOCKER.md
 ├── Dockerfile
 ├── start.sh
 ├── requirements.txt
@@ -483,7 +483,7 @@ docker run --env-file .env \
 - FastAPI backend: `http://localhost:8000`
 - API docs: `http://localhost:8000/docs`
 
-Full Docker documentation: [docs/docker.md](./docs/docker.md)
+Full Docker documentation: [DOCKER.md](./DOCKER.md)
 
 ---
 
@@ -656,7 +656,7 @@ Key engineering challenges solved:
 | [CASE_STUDY.md](./CASE_STUDY.md) | Full development journey — every bug, fix, and decision |
 | [docs/evaluation.md](./docs/evaluation.md) | RAG + Pandas analytics + Docker evaluation results |
 | [docs/architecture.md](./docs/architecture.md) | Architecture deep-dive, component map, retrieval math |
-| [docs/docker.md](./docs/docker.md) | Docker Hub, build, run, environment variables, troubleshooting |
+| [DOCKER.md](./DOCKER.md) | Docker Hub, build, run, environment variables, troubleshooting |
 
 ---
 
