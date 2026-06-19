@@ -82,6 +82,7 @@ The solution is a two-pipeline architecture: a Hybrid RAG Pipeline for semantic 
 | Avg Response Time | ~3.2 sec |
 | Documents Tested | 1129 |
 | Chunks Generated | 2538 |
+| Automated E2E Test Cases | 9 |
 
 ### Scale Testing
 
@@ -161,6 +162,21 @@ pandas operations               (1 original + up to 4)
                                  │
                                  ▼
                    Feedback → Supabase PostgreSQL
+```
+
+### CI/CD & Deployment Flow
+
+```
+GitHub
+   │
+   ▼
+GitHub Actions (CI) — lint, E2E tests
+   │
+   ▼
+Docker Build Workflow
+   │
+   ▼
+Docker Hub (image published)
 ```
 
 ---
@@ -292,6 +308,16 @@ CSV and Excel also remain available as DataFrames for the Pandas Analytics Engin
 - File upload, per-file delete, full vector store reset from sidebar
 - Export chat history as `.txt`
 - System is stateless — no conversational memory across sessions
+
+**API Endpoints**
+
+| Endpoint | Method | Purpose |
+|---|---|---|
+| `/` | GET | Root health message |
+| `/health` | GET | Health check |
+| `/ask` | POST | Main query endpoint — routes to Pandas or RAG |
+
+Full request/response schema: [docs/architecture.md](./docs/architecture.md#api-layer)
 
 **Feedback and Analytics**
 - Thumbs up/down feedback stored in Supabase PostgreSQL

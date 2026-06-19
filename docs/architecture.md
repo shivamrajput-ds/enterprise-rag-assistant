@@ -464,6 +464,27 @@ docker run --env-file .env ...
 
 ---
 
+## CI/CD Infrastructure
+
+```
+GitHub
+   │
+   ▼
+GitHub Actions (CI)
+   │   - Dependency install
+   │   - E2E test suite (test_e2e.py)
+   ▼
+Docker Build Workflow
+   │   - Build image from Dockerfile
+   ▼
+Docker Hub
+   - Image published as shivamrajput130/enterprise-rag-assistant:latest
+```
+
+Two separate GitHub Actions workflows: a CI workflow that runs the E2E test suite on push, and a Docker build workflow that builds and publishes the image to Docker Hub. Both run independently so a failing test does not block image publishing of a previously validated commit, and vice versa.
+
+---
+
 ## Architecture Evolution
 
 | Version | Change |

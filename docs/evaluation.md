@@ -246,6 +246,8 @@ RAGAS integration exposed significant dependency fragility:
 
 `faithfulness: not reliably measured` — Groq rate limits caused evaluator LLM failures during scoring. The application and the RAGAS evaluator shared the same Groq quota, creating rate limit conflicts. This is an evaluation infrastructure limitation, not evidence of hallucination.
 
+**In short:** Faithfulness scoring was attempted, but shared rate limits between the application and the evaluator prevented reliable execution.
+
 > **Lesson learned:** Do not use the same rate-limited LLM provider for the application and the evaluation harness simultaneously.
 
 ---
@@ -283,6 +285,19 @@ Measured on: Intel i5-12450H, 16 GB RAM, GTX 1650, local deployment (not Docker)
 Pandas Engine queries are faster than RAG queries because they skip vector search, BM25, and LLM generation — the answer is computed directly from the DataFrame.
 
 Latency is not currently tested automatically.
+
+---
+
+## Quick Summary
+
+| Category | Result |
+|---|---|
+| Retrieval Test | Pass |
+| Multi-document QA | Pass |
+| Analytics Queries | Pass |
+| Fallback Behaviour | Pass |
+| Source Attribution | Pass |
+| Docker Runtime Validation | Pass |
 
 ---
 

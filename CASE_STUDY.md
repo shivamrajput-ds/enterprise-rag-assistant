@@ -48,6 +48,18 @@ I used `uv` instead of pip throughout. Faster installs, cleaner environment mana
 
 ---
 
+## Why This Matters — Business Impact
+
+This is a portfolio project, not a deployed product, but the problem it solves is real:
+
+- **Reduced manual document search** — instead of scanning through PDFs, DOCX policies, and spreadsheets manually, a single query interface returns grounded answers with source citations
+- **Improved answer discoverability** — hybrid search (vector + BM25) surfaces both conceptual answers and exact-match records (IDs, names) that pure semantic search misses
+- **Enabled analytics on structured datasets** — the Pandas Analytics Engine answers aggregation and ranking questions (averages, top-N, filters) that a text-only RAG pipeline cannot compute, only hallucinate
+
+In a real organization, this pattern — routing between document QA and structured analytics — maps directly to internal knowledge-base and HR/ops-data assistants.
+
+---
+
 ## 2. Base Utilities First
 
 Before building the pipeline, I set up logging and exception handling. This paid off throughout — every bug was traceable to an exact file and line number from day one.
@@ -331,6 +343,18 @@ Common issues during Docker development:
 - Supabase connection from inside container — worked correctly once the connection string was in `.env`
 
 The Docker image is published at: [hub.docker.com/r/shivamrajput130/enterprise-rag-assistant](https://hub.docker.com/repository/docker/shivamrajput130/enterprise-rag-assistant/general)
+
+---
+
+## 14a. CI/CD and Streamlit Cloud — The Last Mile Was Harder Than the Pipeline
+
+Getting the core RAG pipeline working was one phase. Getting it to deploy reliably outside my own machine was a separate set of problems:
+
+- **`uv.lock` / `pyproject.toml` mismatch on Streamlit Cloud** — dependencies that resolved fine locally with `uv` failed to install on Streamlit Cloud because the lock file was out of sync with `pyproject.toml`. Re-syncing both files before each deploy fixed it.
+- **CI E2E tests hanging** — the GitHub Actions E2E job would hang rather than fail, because a missing `GROQ_API_KEY` secret caused the LLM client to retry indefinitely instead of erroring out. Fixed by adding the repo secret and a request timeout.
+- **RAGAS dependency conflicts in CI** — the same `ragas` / `langchain-community` version conflicts seen locally also broke the CI environment until the same `ragas==0.2.10` pin was applied in the CI requirements.
+
+None of these were pipeline bugs — they were environment and tooling mismatches between local development, CI, and cloud deployment. They took longer to resolve than several of the RAG bugs above.
 
 ---
 
