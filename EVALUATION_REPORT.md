@@ -405,16 +405,3 @@ This is a strong placement project because it solves real limitations of traditi
 
 ---
 
-## 14. Recommended README Link
-
-Add this line to `README.md`:
-
-```md
-📊 [Evaluation Report](EVALUATION_REPORT.md) | 🎤 [Interview Q&A](docs/INTERVIEW_QA.md)
-```
-
-And add this to the documentation table:
-
-```md
-| [EVALUATION_REPORT.md](./EVALUATION_REPORT.md) | Manual + deterministic evaluation report with test cases, pass criteria, limitations, and final assessment |
-```
