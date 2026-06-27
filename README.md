@@ -13,6 +13,8 @@ A production-oriented document QA system that combines a **Hybrid RAG Pipeline**
 
 📺 [Watch Demo](https://youtu.be/Rvdz9DKtz5o?si=GcMIR7nWABJQYCR1) | 🐳 [Docker Hub](https://hub.docker.com/repository/docker/shivamrajput130/enterprise-rag-assistant/general) | 💻 [GitHub](https://github.com/shivamrajput-ds/enterprise-rag-assistant)
 
+📊 [Evaluation Report](EVALUATION_REPORT.md) | 🎤 [Interview Q&A](docs/INTERVIEW_QA.md) | 📘 [Architecture Docs](docs/architecture.md)
+
 ![Demo](assets/demo.gif)
 
 ---
@@ -47,6 +49,8 @@ The solution is a two-pipeline architecture: a Hybrid RAG Pipeline for semantic 
 | E2E testing — RAG + Pandas paths | ✅ Complete |
 | GitHub Actions CI/CD | ✅ Complete |
 | Docker Build Workflow | ✅ Complete |
+| Evaluation report — manual + deterministic E2E coverage | ✅ Complete |
+| Interview Q&A documentation | ✅ Complete |
 | DVC / DagsHub data versioning | 🚧 Planned |
 
 ---
@@ -83,6 +87,8 @@ The solution is a two-pipeline architecture: a Hybrid RAG Pipeline for semantic 
 | Documents Tested | 1129 |
 | Chunks Generated | 2538 |
 | Automated E2E Test Cases | 9 |
+
+For a detailed manual + deterministic evaluation covering semantic RAG, exact lookup, analytics queries, fallback behavior, and interview demo scenarios, see [EVALUATION_REPORT.md](EVALUATION_REPORT.md).
 
 ### Scale Testing
 
@@ -432,13 +438,16 @@ enterprise-rag-assistant/
 │   └── e2e_test_cases.csv
 ├── docs/
 │   ├── architecture.md
-│   └── evaluation.md
+│   ├── evaluation.md
+│   └── INTERVIEW_QA.md       # Interview preparation questions and answers
 ├── data/
 │   ├── documents/           # Created at runtime — not committed to Git
 │   └── vectorstore/         # Created at runtime — not committed to Git
 ├── logs/                    # Created at runtime — not committed to Git
 ├── config.yaml
+├── EVALUATION_REPORT.md      # Manual + deterministic evaluation report
 ├── CASE_STUDY.md
+├── PROJECT_SUMMARY.md  
 ├── DOCKER.md
 ├── Dockerfile
 ├── start.sh
@@ -448,6 +457,123 @@ enterprise-rag-assistant/
 ```
 
 ---
+## Interview Demo Script
+
+Use these questions during a live interview or project walkthrough to demonstrate that the system is more than a basic PDF chatbot.
+
+### 1. Semantic RAG Question
+
+**Question:**
+
+```text
+What is the work from home policy?
+```
+
+**What this proves:**
+
+- The system can retrieve policy information from uploaded documents.
+- The answer is grounded in document context.
+- Source attribution is visible.
+
+---
+
+### 2. Exact ID Lookup
+
+**Question:**
+
+```text
+Student_ID S127
+```
+
+**What this proves:**
+
+- Hybrid retrieval handles exact tokens.
+- BM25 helps where vector search alone may fail.
+- The system can retrieve row-level structured records.
+
+---
+
+### 3. Analytics / Aggregation Query
+
+**Question:**
+
+```text
+What is the average math score?
+```
+
+**What this proves:**
+
+- The query router sends analytical questions to the Pandas engine.
+- The answer is computed from the DataFrame.
+- The LLM is not guessing numerical values.
+
+---
+
+### 4. Multi-condition Filter Query
+
+**Question:**
+
+```text
+Show students in Section A with percentage greater than 90.
+```
+
+**What this proves:**
+
+- The Pandas engine supports multi-condition filtering.
+- The system can combine categorical and numerical filters.
+
+---
+
+### 5. Ranking Query
+
+**Question:**
+
+```text
+Who are the top 5 students by percentage?
+```
+
+**What this proves:**
+
+- The system supports top-N ranking queries.
+- Structured analytics are handled deterministically.
+
+---
+
+### 6. Out-of-Scope Fallback
+
+**Question:**
+
+```text
+Who won the latest cricket match?
+```
+
+**What this proves:**
+
+- The assistant does not hallucinate.
+- It refuses unsupported answers when the uploaded documents do not contain the answer.
+
+---
+
+### 7. Machine Learning Knowledge Query
+
+**Question:**
+
+```text
+Explain bias variance tradeoff.
+```
+
+**What this proves:**
+
+- The system can answer semantic questions from long-form ML documents.
+- It can retrieve relevant textbook-style context and generate a grounded explanation.
+
+---
+
+## Suggested Interview Pitch
+
+This project started as a normal RAG chatbot, but I found two major production problems: vector search failed on exact IDs/names, and RAG hallucinated on numerical aggregation questions. I solved this by building a hybrid architecture: semantic questions go to a Hybrid RAG pipeline with BM25, vector search, query expansion, and reranking, while analytical questions go to a Pandas engine through a query router. This makes the system more reliable than a simple PDF chatbot.
+
+For detailed interviewer-style explanations, see [docs/INTERVIEW_QA.md](docs/INTERVIEW_QA.md).
 
 ## Prerequisites
 
@@ -653,6 +779,8 @@ Key engineering challenges solved:
 
 | Document | Contents |
 |---|---|
+| [EVALUATION_REPORT.md](./EVALUATION_REPORT.md) | Manual + deterministic project evaluation, test coverage, pass criteria, limitations |
+| [docs/INTERVIEW_QA.md](./docs/INTERVIEW_QA.md) | Interview questions and answers for explaining architecture and trade-offs |
 | [CASE_STUDY.md](./CASE_STUDY.md) | Full development journey — every bug, fix, and decision |
 | [docs/evaluation.md](./docs/evaluation.md) | RAG + Pandas analytics + Docker evaluation results |
 | [docs/architecture.md](./docs/architecture.md) | Architecture deep-dive, component map, retrieval math |
